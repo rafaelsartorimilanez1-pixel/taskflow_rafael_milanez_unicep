@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
+
+  @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  void saveTask() {
+    if (titleController.text.trim().isEmpty) return;
+
+    Navigator.pop(context, {
+      "title": titleController.text,
+      "description": descriptionController.text,
+      "completed": false,
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +89,7 @@ class AddTaskScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
+                  controller: titleController,
                   decoration: InputDecoration(
                     hintText: "Digite o título da tarefa",
                     filled: true,
@@ -99,6 +118,7 @@ class AddTaskScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
+                  controller: descriptionController,
                   maxLines: 6,
                   decoration: InputDecoration(
                     hintText: "Digite a descrição da tarefa",
@@ -115,8 +135,8 @@ class AddTaskScreen extends StatelessWidget {
 
                 FloatingActionButton(
                   backgroundColor: const Color(0xFF8DB4FF),
-                  onPressed: () {},
-                  child: const Icon(Icons.add),
+                  onPressed: saveTask,
+                  child: const Icon(Icons.check),
                 ),
               ],
             ),
